@@ -53,7 +53,7 @@ jobs:
       
       - name: Build and Publish
         env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
           # 프로젝트 구조 확인
           ls -R
@@ -63,4 +63,4 @@ jobs:
           ls -la dist/
           # 배포
           pip install twine --upgrade
-          rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
+          rye publish --token "$PYPI_TOKEN" --yes
