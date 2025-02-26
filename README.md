@@ -1,4 +1,5 @@
 # rye-easy
+[![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/rye/main/artwork/badge.json)](https://rye.astral.sh)
 
 Rye Easy is a tool to help you manage your Python projects with Rye.
 
