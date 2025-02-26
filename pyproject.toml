@@ -1,6 +1,6 @@
 [project]
 name = "rye-easy"
-version = "0.1.23"
+version = "0.1.25"
 description = "Rye Easy is a tool to help you manage your Python projects with Rye."
 authors = [
     { name = "David Cho", email = "csi00700@gmail.com" }
