@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 # Install basic dependencies
-RUN apt-get update && apt-get install -y wget curl git python3 python3-pip gunzip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y wget curl git python3 python3-pip gzip && rm -rf /var/lib/apt/lists/*
 
 # Install Rye
 RUN wget https://github.com/astral-sh/rye/releases/latest/download/rye-x86_64-linux.gz \
