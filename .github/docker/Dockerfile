@@ -14,7 +14,7 @@ RUN wget https://github.com/astral-sh/rye/releases/latest/download/rye-x86_64-li
 ENV PATH="/root/.rye/shims:${PATH}"
 
 # Install additional Python tools
-RUN pip install --upgrade pip twine
+RUN pip install --upgrade twine
 
 # Set working directory
 WORKDIR /github/workspace
