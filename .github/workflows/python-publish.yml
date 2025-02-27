@@ -36,16 +36,13 @@ jobs:
   publish:
     needs: release
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/rye-action:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Install Rye
-        run: |
-          wget https://github.com/astral-sh/rye/releases/latest/download/rye-x86_64-linux.gz
-          gunzip rye-x86_64-linux.gz
-          chmod +x ./rye-x86_64-linux
-          ./rye-x86_64-linux self install --yes
-          echo "$HOME/.rye/shims" >> $GITHUB_PATH
       
       - name: Install Dependencies
         run: |
@@ -62,5 +59,4 @@ jobs:
           # 빌드된 파일 확인
           ls -la dist/
           # 배포
-          pip install twine --upgrade
           rye publish --token "$PYPI_TOKEN" --yes
