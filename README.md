@@ -45,16 +45,82 @@ When you run the publish command, the following operations are performed:
 
 This command automates the entire release process in one step.
 
+#### Update Pyproject Command
+
+```bash
+# Read the entire pyproject.toml
+python -m rye_easy update_pyproject
+
+# Read a specific value
+python -m rye_easy update_pyproject --section project --key version
+
+# Update a specific value
+python -m rye_easy update_pyproject --section project --key description --value "New description"
+```
+
+The update_pyproject command allows you to read or modify values in your pyproject.toml file:
+- Without arguments, it returns the entire pyproject.toml content
+- With `--section` and `--key`, it reads a specific value
+- With `--section`, `--key`, and `--value`, it updates a specific value
+
+The section parameter supports nested sections using dot notation (e.g., "tool.rye").
+
+#### Fix Build System Command
+
+```bash
+# Use the default hatchling version (1.26.3)
+python -m rye_easy fix_buildsystem
+
+# Specify a different hatchling version
+python -m rye_easy fix_buildsystem --version 1.27.0
+```
+
+The fix_buildsystem command updates the build-system requirements in your pyproject.toml file:
+1. Removes any existing hatchling entries from the requires list
+2. Adds the specified hatchling version (default is 1.26.3)
+3. Ensures the build-backend is set to "hatchling.build"
+
+This is useful for fixing build issues related to the hatchling version.
+
+#### Add Script Command
+
+```bash
+# Add a script entry
+python -m rye_easy add_script --name my_script --target "my_package.module:function"
+```
+
+The add_script command adds or updates a script entry in the [project.scripts] section of your pyproject.toml file:
+- `--name`: Name of the script to add
+- `--target`: Target module or function for the script
+
+For example, the command above would add the following entry to your pyproject.toml:
+```toml
+[project.scripts]
+my_script = "my_package.module:function"
+```
+
 ### As a Python Module
 
 ```python
-from rye_easy import build, publish
+from rye_easy import build, publish, update_pyproject, fix_buildsystem, add_script
 
 # Build your package
 build()
 
 # Publish your package
 publish()
+
+# Read or update pyproject.toml
+data = update_pyproject()  # Read entire file
+version = update_pyproject(key="version", section="project")  # Read a value
+update_pyproject(key="description", value="New description", section="project")  # Update a value
+
+# Fix build system
+fix_buildsystem()  # Use default hatchling version (1.26.3)
+fix_buildsystem(hatchling_version="1.27.0")  # Specify a version
+
+# Add a script entry
+add_script(script_name="my_script", script_target="my_package.module:function")
 ```
 
 ### Functions
@@ -63,7 +129,10 @@ publish()
 - `publish()`: Bumps patch version, commits changes, creates a git tag, and pushes to remote
 - `clean_dist()`: Cleans the dist directory
 - `get_version()`: Gets the current version from Rye
+- `update_pyproject(key=None, value=None, section=None)`: Reads or updates values in pyproject.toml
+- `fix_buildsystem(hatchling_version="1.26.3")`: Updates build-system requirements in pyproject.toml
+- `add_script(script_name, script_target)`: Adds a script entry to the [project.scripts] section
 
 ## TODO 
-- [ ] pyproject.toml hatching 버젼 수정하여 build 잘 되게 하기
+- [x] pyproject.toml hatching 버젼 수정하여 build 잘 되게 하기
 - [ ] github action 에서 배포가 잘될 수 있게 .github\workflows\python-publish.yml을 복사할 수 있게 하기 
